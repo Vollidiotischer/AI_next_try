@@ -38,5 +38,8 @@
     <ClInclude Include="SimpleAI.h">
       <Filter>Quelldateien\AI_Lib</Filter>
     </ClInclude>
+    <ClInclude Include="AI_Utility.h">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

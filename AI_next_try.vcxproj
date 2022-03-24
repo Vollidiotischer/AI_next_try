@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="AI_Instance.h" />
     <ClInclude Include="AI_Manager.h" />
+    <ClInclude Include="AI_Utility.h" />
     <ClInclude Include="AI_Variables.h" />
     <ClInclude Include="Resource_Manager.h" />
     <ClInclude Include="SimpleAI.h" />
