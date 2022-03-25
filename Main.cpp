@@ -2,6 +2,8 @@
 
 #include "SimpleAI.h"
 
+#include "Variables.h"
+#include "MainLoop.h"
 
 /*
 
@@ -10,14 +12,13 @@ todo:
 		+ remove all the unneseccary vector copying
 
 
+Training data format: 
+	First Line: Input size & output size seperated by a colon (:)
+	Following lines: Data
+		Data is seperated by a dot (.)
+		At the end of each line is the expected result
+			It is seperated from the data by a dash (-)
 
-
-Ablauf: 
-	Load data
-	Evaluate all ai instances
-		-> Save error for each instance
-	train 
-	repeat 
 
 
 
@@ -32,29 +33,12 @@ Berechnen:
 
 int main() {
 
-	std::vector<SimpleAI::Data_Point> data;
-
-	SimpleAI::Resource_Manager::load_data("training_data.txt", data);
-	
-	SimpleAI::AI_Manager manager(1); 
-
-	//manager.train_all_instances(data, 1000000, 10000);
-	manager.train_all_instances(data, 1.f);
+	SimpleAI::AI_Manager manager(5); 
+	std::vector<Point> points;
 
 
-	for (auto& s : manager.ai_list) {
-		std::cout << "\nError: " << s.error << " ==> " << s.error * 100.f << "%" << std::endl;
-		for (auto& d : data) {
-			std::array<float, 2> res; 
-			s.evaluate_input(d.data, res); 
-			SimpleAI::println_array<float, 2>(d.result); 
-			SimpleAI::println_array<float, 2>(res); 
-			std::cout << std::endl; 
-		}
-
-	}
-
-	
+	MainLoop::run(manager, points); 
 
 	return 0; 
 }
+

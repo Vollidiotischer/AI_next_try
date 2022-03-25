@@ -11,6 +11,8 @@ namespace SimpleAI {
 
 		std::vector<AI_Instance> ai_list; 
 
+		AI_Instance *best_instance = NULL; 
+
 		AI_Manager(int num_instances) : num_instances(num_instances) {
 
 			std::cout << "[AI_Manager] Creating instances..." << std::endl; 
@@ -43,15 +45,17 @@ namespace SimpleAI {
 		}
 
 
-		void train_all_instances(std::vector<Data_Point>& data, float goal_percent) {
+		void train_all_instances(std::vector<Data_Point>& data, DATA_TYPE goal_percent) {
 
 			goal_percent /= 100.f;
 
-			float minimum = 1.f; 
+			DATA_TYPE minimum = 1.f; 
 
 			while (minimum > goal_percent){
 				for (int i2 = 0; i2 < ai_list.size(); i2++) {
+
 					ai_list[i2].backprop(data);
+
 					if (ai_list[i2].error < minimum) {
 						minimum = ai_list[i2].error;
 						std::cout.precision(4); 
@@ -59,8 +63,21 @@ namespace SimpleAI {
 
 					} 
 				}
+
 			}
 
+		}
+
+		void reshuffel_instances() {
+
+			int pos = calculate_best_instance(); 
+
+			for (int i = 0; i < ai_list.size(); i++) {
+				if (i != pos) {
+					ai_list[i].init_biases();
+					ai_list[i].init_weights();
+				}
+			}
 		}
 
 		void evaluate_instances(std::vector<Data_Point>& data) {
@@ -72,6 +89,25 @@ namespace SimpleAI {
 
 			}
 
+		}
+
+		int calculate_best_instance() {
+
+			int pos = 0; 
+			DATA_TYPE min_score = ai_list[0].error; 
+			best_instance = &ai_list[0]; 
+
+			for (int i = 1; i < ai_list.size(); i++) {
+				if (ai_list[i].error < min_score) {
+					min_score = ai_list[i].error;
+					best_instance = &ai_list[i];
+
+					pos = i; 
+
+				}
+			}
+
+			return pos; 
 		}
 
 	private:

@@ -16,10 +16,25 @@
     <Filter Include="Quelldateien\AI_Lib">
       <UniqueIdentifier>{f7100343-913c-449b-8739-791fd5525ee2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\Graphic_stuff">
+      <UniqueIdentifier>{6151b33c-1aa4-4b30-b718-e26e10919536}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="MainLoop.cpp">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawing.cpp">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="AIModule.cpp">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +55,21 @@
     </ClInclude>
     <ClInclude Include="AI_Utility.h">
       <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="MainLoop.h">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawing.h">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Variables.h">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="AIModule.h">
+      <Filter>Quelldateien\Graphic_stuff</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,36 +11,39 @@ ai_layout:
 	Number of Neurons per Layer
 
 */ 
-constexpr int num_layers = 3; 
-constexpr std::array<int, num_layers> ai_layout = {2, 3, 2};
 
-constexpr float ai_learn_factor = 0.5f; 
+#define DATA_TYPE float
+
+constexpr int num_layers = 4; 
+constexpr std::array<int, num_layers> ai_layout = {2, 3, 4, 1};
+
+constexpr DATA_TYPE ai_learn_factor = 0.01f;
 
 
 namespace SimpleAI {
 
 	struct Data_Point {
 
-		std::array<float, ai_layout[0]> data; 
-		std::array<float, ai_layout[num_layers - 1]> result; 
+		std::array<DATA_TYPE, ai_layout[0]> data;
+		std::array<DATA_TYPE, ai_layout[num_layers - 1]> result;
 
 	};
 
 	struct Neuron {
 
-		float z = 0; // ohne aktivierungsfunktion
-		float a = 0; // mit aktivierungsfunktion 
+		DATA_TYPE z = 0; // ohne aktivierungsfunktion
+		DATA_TYPE a = 0; // mit aktivierungsfunktion 
 
-		float delta_value = 0; // the delta value calculated in backpropagation
+		DATA_TYPE delta_value = 0; // the delta value calculated in backpropagation
 
 	};
 
 	struct Weight {
 
-		float current_weight = 0; // momentaner wert
-		float delta_change = 0;   // zukünftige delta Veränderung
+		DATA_TYPE current_weight = 0; // momentaner wert
+		DATA_TYPE delta_change = 0;   // zukünftige delta Veränderung
 
-		Weight(float w) {
+		Weight(DATA_TYPE w) {
 			this->current_weight = w; 
 		}
 
@@ -49,10 +52,10 @@ namespace SimpleAI {
 
 	struct Bias {
 
-		float current_bias = 0; // momentaner wert
-		float delta_change = 0;   // zukünftige delta Veränderung
+		DATA_TYPE current_bias = 0; // momentaner wert
+		DATA_TYPE delta_change = 0;   // zukünftige delta Veränderung
 
-		Bias(float b) {
+		Bias(DATA_TYPE b) {
 			this->current_bias = b;
 		}
 

@@ -18,7 +18,7 @@ namespace SimpleAI {
 			std::vector<std::string> parsed; 
 			read_txt_file(path, parsed); 
 
-			std::array<float, 2> ai_size;
+			std::array<DATA_TYPE, 2> ai_size;
 			parse_data<2>(parsed[0], ai_size); 
 
 			for (int i = 1; i < parsed.size(); i++) {
@@ -55,7 +55,7 @@ namespace SimpleAI {
 		}
 
 		template <int arr_size>
-		static void parse_data(const std::string& inp /* IN */, std::array<float, arr_size>& result /* OUT */) {
+		static void parse_data(const std::string& inp /* IN */, std::array<DATA_TYPE, arr_size>& result /* OUT */) {
 			
 			int last_pos = 0; 
 
@@ -69,7 +69,7 @@ namespace SimpleAI {
 				}
 
 				if (inp[i] == '.' || inp[i] == '-' || inp[i] == '!') {
-					result[data_index] = stof(inp.substr(last_pos, i - last_pos));
+					result[data_index] = stod(inp.substr(last_pos, i - last_pos));
 					data_index++; 
 					last_pos = i + 1; 
 				}
