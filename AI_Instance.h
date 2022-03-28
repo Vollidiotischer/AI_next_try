@@ -17,7 +17,7 @@ namespace SimpleAI {
 			std::default_random_engine engine;
 			std::normal_distribution<DATA_TYPE> dist;
 
-			Random_Device() : dist(0.f, 1.f), engine(time(NULL)) {}
+			Random_Device() : dist(erwartungswert, standardabweichung), engine(time(NULL)) {}
 
 			DATA_TYPE get_random_number() {
 
@@ -32,6 +32,8 @@ namespace SimpleAI {
 
 		static Random_Device rd;
 
+		DATA_TYPE learn_factor = 1.f; 
+
 		/*
 
 		Weights is a List of num_layers - 1 matrices
@@ -44,7 +46,9 @@ namespace SimpleAI {
 		DATA_TYPE error = 0.f; 
 
 
-		AI_Instance() {
+		AI_Instance(DATA_TYPE learn_factor) {
+
+			this->learn_factor = learn_factor; 
 
 			// initialize neurons
 			for (int i = 0; i < num_layers; i++) {
@@ -52,37 +56,11 @@ namespace SimpleAI {
 			}
 
 
-			// weights: 
-
-
-			// biases: 
-
 			// initialize weights
 			init_weights();
-			/*
-			weights[0][0][0].current_weight = 0.7; 
-			weights[0][0][1].current_weight = -0.6;
 
-			weights[0][1][0].current_weight = 0.5;
-			weights[0][1][1].current_weight = 0.8;
-
-
-			weights[1][0][0].current_weight = 0.9;
-			weights[1][0][1].current_weight = -0.4;
-
-			weights[1][1][0].current_weight = 0.3;
-			weights[1][1][1].current_weight = 0.4;
-
-			*/
 			// initialize biases
 			init_biases();
-			/*
-			biases[0][0].current_bias = -0.2; 
-			biases[0][1].current_bias = 0.3; 
-
-			biases[1][0].current_bias = 0.1; 
-			biases[1][1].current_bias = 0.2; 
-			*/
 		}
 
 		
@@ -244,9 +222,31 @@ namespace SimpleAI {
 
 				// Initialize to random Value
 				for (int i2 = 0; i2 < biases[i].size(); i2++) {
-					biases[i][i2].current_bias = rd.get_random_number() / sqrt((DATA_TYPE)neurons[i].size());
+					biases[i][i2].current_bias = rd.get_random_number();
 				}
 			}
+		}
+
+		static void clear_weight_delta_value(std::array<std::vector<std::vector<Weight>>, num_layers - 1>& weights) {
+
+			for (auto& w1 : weights) {
+				for (auto& w2 : w1) {
+					for (auto& w3 : w2) {
+						w3.delta_change = 0.f;
+					}
+				}
+			}
+
+		}
+
+		static void clear_biases_delta_value(std::array<std::vector<Bias>, num_layers - 1>& biases) {
+
+			for (auto& b1 : biases) {
+				for (auto& b2 : b1) {
+					b2.delta_change = 0.f;
+				}
+			}
+
 		}
 
 private:
@@ -290,12 +290,12 @@ private:
 						// weights
 						for (int i3 = 0; i3 < neurons[i-1].size(); i3++) {
 							
-							weights[i-1][i2][i3].delta_change += ai_learn_factor * neurons[i][i2].delta_value * neurons[i - 1][i3].a;
+							weights[i-1][i2][i3].delta_change += learn_factor * neurons[i][i2].delta_value * neurons[i - 1][i3].a;
 							
 						}
 
 						// biases
-						biases[i-1][i2].delta_change += ai_learn_factor * neurons[i][i2].delta_value;
+						biases[i-1][i2].delta_change += learn_factor * neurons[i][i2].delta_value;
 
 					}
 
@@ -317,39 +317,17 @@ private:
 
 						// weights
 						for (int i3 = 0; i3 < weights[i - 1][i2].size(); i3++) {
-							weights[i - 1][i2][i3].delta_change += ai_learn_factor * neurons[i][i2].delta_value * neurons[i - 1][i3].a; 
+							weights[i - 1][i2][i3].delta_change += learn_factor * neurons[i][i2].delta_value * neurons[i - 1][i3].a;
 						}
 
 						// biases
-						biases[i - 1][i2].delta_change += ai_learn_factor * neurons[i][i2].delta_value; 
+						biases[i - 1][i2].delta_change += learn_factor * neurons[i][i2].delta_value;
 					}
 
 				}
 
 			}
 
-
-		}
-
-		static void clear_weight_delta_value(std::array<std::vector<std::vector<Weight>>, num_layers - 1>& weights) {
-
-			for (auto& w1 : weights) {
-				for (auto& w2 : w1) {
-					for (auto& w3 : w2) {
-						w3.delta_change = 0.f; 
-					}
-				}
-			}
-
-		}
-
-		static void clear_biases_delta_value(std::array<std::vector<Bias>, num_layers - 1>& biases) {
-			
-			for (auto& b1 : biases) {
-				for (auto& b2 : b1) {
-					b2.delta_change = 0.f; 
-				}
-			}
 
 		}
 
@@ -392,13 +370,13 @@ private:
 		}
 
 		static DATA_TYPE activation_function(DATA_TYPE x) {
-			//return ((0.5f * x) / (1.f + abs(x))) + 0.5f;
-			return 1.f / (1.f + exp(-x)); 
+			return ((0.5f * x) / (1.f + abs(x))) + 0.5f;
+			//return 1.f / (1.f + exp(-x)); 
 		}
 
 		static DATA_TYPE activation_function_derivative(DATA_TYPE x) {
-			//return 1.f / (4.f * abs(x) + 2.f * x * x + 2.f);
-			return activation_function(x) * (1.f - activation_function(x)); 
+			return 1.f / (4.f * abs(x) + 2.f * x * x + 2.f);
+			//return activation_function(x) * (1.f - activation_function(x)); 
 		}
 
 		static void zero_out(std::vector<Neuron>& vect1 /* IN / OUT */) {

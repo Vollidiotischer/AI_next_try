@@ -15,10 +15,11 @@ namespace SimpleAI {
 
 		AI_Manager(int num_instances) : num_instances(num_instances) {
 
+			srand(time(NULL)); 
 			std::cout << "[AI_Manager] Creating instances..." << std::endl; 
 
 			for (int i = 0; i < num_instances; i++) {
-				ai_list.push_back(AI_Instance()); 
+				ai_list.push_back(AI_Instance(ai_learn_factor)); 
 			}
 
 			std::cout << "[AI_Manager] Finished creating Instances" << std::endl; 
@@ -74,7 +75,7 @@ namespace SimpleAI {
 
 			for (int i = 0; i < ai_list.size(); i++) {
 				if (i != pos) {
-					ai_list[i].init_biases();
+					ai_list[i].init_biases(); 
 					ai_list[i].init_weights();
 				}
 			}

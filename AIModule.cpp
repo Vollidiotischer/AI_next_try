@@ -17,7 +17,8 @@ namespace AIModule {
 				dp.data[1] = p.y / point_size;
 
 				dp.result[0] = p.color == 'r';
-				//dp.result[1] = p.color == 'b';
+				//dp.result[1] = p.color == 'g';
+				//dp.result[2] = p.color == 'b';
 
 				data.push_back(dp);
 			}
@@ -35,7 +36,7 @@ namespace AIModule {
 
 		populate_data(data, points);
 
-		manager.train_all_instances(data, 500, 0);
+		manager.train_all_instances(data, 150, 0);
 
 		manager.evaluate_instances(data);
 
@@ -44,6 +45,8 @@ namespace AIModule {
 		if (i % 50 == 0) {
 			manager.reshuffel_instances();
 			manager.best_instance->print_error("\n");
+			manager.evaluate_instances(data);
+			manager.calculate_best_instance();
 
 			i = 0;
 		}

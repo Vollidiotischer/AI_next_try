@@ -30,7 +30,7 @@ namespace Drawing {
 					std::array<DATA_TYPE, 1> result;
 					std::array<DATA_TYPE, 2> data = { i, i2 };
 					ai->evaluate_input(data, result);
-					rect.setFillColor(sf::Color(result[0] * 255, 0, (1.f - result[0]) * 255));
+					rect.setFillColor(sf::Color(result[0] * 255, 0, (1 - result[0]) * 255));
 
 					rw.draw(rect); 
 				}
@@ -50,7 +50,7 @@ namespace Drawing {
 
 			for (int i = 0; i < points.size(); i++) {
 				circle.setPosition({ (float)points[i].x, (float)points[i].y });
-				circle.setFillColor(points[i].color == 'r' ? sf::Color::Red : sf::Color::Blue);
+				circle.setFillColor(sf::Color((points[i].color == 'r') * 255, (points[i].color == 'g') * 255, (points[i].color == 'b') * 255));
 
 				rw.draw(circle);
 			}

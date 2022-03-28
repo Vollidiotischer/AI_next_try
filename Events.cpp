@@ -32,6 +32,11 @@ namespace Events {
 				if (events.mouseButton.button == sf::Mouse::Right) {
 					points.push_back(Point(mx, my, 'b'));
 
+				} 
+
+				if (events.mouseButton.button == sf::Mouse::Middle) {
+					points.push_back(Point(mx, my, 'g'));
+
 				}
 
 			}

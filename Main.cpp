@@ -33,7 +33,7 @@ Berechnen:
 
 int main() {
 
-	SimpleAI::AI_Manager manager(5); 
+	SimpleAI::AI_Manager manager(10); 
 	std::vector<Point> points;
 
 
