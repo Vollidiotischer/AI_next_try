@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "SimpleAI.h"
+#include "SimpleAI/SimpleAI.h"
 
 #include "Variables.h"
 
@@ -27,10 +27,12 @@ namespace Drawing {
 
 					rect.setPosition({i * point_size, i2 * point_size});
 
-					std::array<DATA_TYPE, 1> result;
-					std::array<DATA_TYPE, 2> data = { i, i2 };
+					std::array<DATA_TYPE, 2> result;
+					std::array<DATA_TYPE, 2> data = { (DATA_TYPE)i / (window_width/point_size), (DATA_TYPE)i2 / (window_height/point_size) };
 					ai->evaluate_input(data, result);
-					rect.setFillColor(sf::Color(result[0] * 255, 0, (1 - result[0]) * 255));
+					
+					rect.setFillColor(sf::Color(result[0] * 255, 0, result[1] * 255));
+
 
 					rw.draw(rect); 
 				}
@@ -58,13 +60,14 @@ namespace Drawing {
 
 	}
 
-	void draw_screen(sf::RenderWindow& rw, std::vector<Point>& points, SimpleAI::AI_Instance* ai) {
+	void draw_screen(sf::RenderWindow& rw, std::vector<Point>& points, SimpleAI::AI_Instance* ai, bool points_shown) {
 
 		rw.clear(sf::Color::White); 
 
 		paint_background(rw, ai); 
 
-		paint_points(rw, points); 
+		if (points_shown)
+			paint_points(rw, points); 
 
 		rw.display(); 
 

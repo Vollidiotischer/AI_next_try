@@ -12,18 +12,19 @@ ai_layout:
 
 */ 
 
-#define DATA_TYPE float
-
-constexpr int num_layers = 5; 
-constexpr std::array<int, num_layers> ai_layout = {2, 4, 4, 4, 1};
-
-constexpr DATA_TYPE ai_learn_factor = 0.01f;
-
-constexpr float erwartungswert = 0.0f; 
-constexpr float standardabweichung = 3.f; 
+#define DATA_TYPE double
 
 
 namespace SimpleAI {
+
+	constexpr int num_layers = 7;
+	constexpr std::array<int, num_layers> ai_layout = { 2, 8, 8, 8, 6, 6, 2 };
+
+	constexpr DATA_TYPE ai_learn_factor = 0.01f;
+
+	constexpr float erwartungswert = 0.f;
+	constexpr float standardabweichung = 3.f;
+
 
 	struct Data_Point {
 

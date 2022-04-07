@@ -3,6 +3,6 @@
 
 namespace Drawing {
 
-	void draw_screen(sf::RenderWindow&, std::vector<Point>&, SimpleAI::AI_Instance* ai);
+	void draw_screen(sf::RenderWindow&, std::vector<Point>&, SimpleAI::AI_Instance* ai, bool);
 
 }

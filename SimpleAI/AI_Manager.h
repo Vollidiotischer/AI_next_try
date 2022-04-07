@@ -7,11 +7,15 @@ namespace SimpleAI {
 
 	struct AI_Manager {
 
+
+
 		int num_instances; 
 
 		std::vector<AI_Instance> ai_list; 
 
 		AI_Instance *best_instance = NULL; 
+
+
 
 		AI_Manager(int num_instances) : num_instances(num_instances) {
 

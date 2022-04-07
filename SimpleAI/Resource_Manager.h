@@ -28,7 +28,7 @@ namespace SimpleAI {
 
 			printf("Finished loading Data\n"); 
 		}
-	private:
+
 		static void read_txt_file(std::string& path, std::vector<std::string>& result) {
 
 			std::ifstream file; 

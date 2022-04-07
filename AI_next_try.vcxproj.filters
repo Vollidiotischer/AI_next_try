@@ -13,11 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Quelldateien\AI_Lib">
-      <UniqueIdentifier>{f7100343-913c-449b-8739-791fd5525ee2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Quelldateien\Graphic_stuff">
       <UniqueIdentifier>{6151b33c-1aa4-4b30-b718-e26e10919536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\AI_Lib">
+      <UniqueIdentifier>{3c69693d-dc56-46a9-ac1c-c9405b597159}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,24 +38,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AI_Instance.h">
-      <Filter>Quelldateien\AI_Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="AI_Manager.h">
-      <Filter>Quelldateien\AI_Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="AI_Variables.h">
-      <Filter>Quelldateien\AI_Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource_Manager.h">
-      <Filter>Quelldateien\AI_Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleAI.h">
-      <Filter>Quelldateien\AI_Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="AI_Utility.h">
-      <Filter>Quelldateien\AI_Lib</Filter>
-    </ClInclude>
     <ClInclude Include="MainLoop.h">
       <Filter>Quelldateien\Graphic_stuff</Filter>
     </ClInclude>
@@ -70,6 +52,24 @@
     </ClInclude>
     <ClInclude Include="AIModule.h">
       <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleAI\AI_Instance.h">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleAI\AI_Manager.h">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleAI\AI_Utility.h">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleAI\AI_Variables.h">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleAI\Resource_Manager.h">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleAI\SimpleAI.h">
+      <Filter>Quelldateien\AI_Lib</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

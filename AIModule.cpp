@@ -1,7 +1,7 @@
 #include <iostream>
 
 
-#include "SimpleAI.h"
+#include "SimpleAI/SimpleAI.h"
 #include "Variables.h"
 
 
@@ -13,11 +13,11 @@ namespace AIModule {
 
 			for (auto& p : points) {
 				SimpleAI::Data_Point dp;
-				dp.data[0] = p.x / point_size;
-				dp.data[1] = p.y / point_size;
+				dp.data[0] = (DATA_TYPE)p.x / window_width;
+				dp.data[1] = (DATA_TYPE)p.y / window_height;
 
 				dp.result[0] = p.color == 'r';
-				//dp.result[1] = p.color == 'g';
+				dp.result[1] = p.color == 'b';
 				//dp.result[2] = p.color == 'b';
 
 				data.push_back(dp);
@@ -36,19 +36,24 @@ namespace AIModule {
 
 		populate_data(data, points);
 
-		manager.train_all_instances(data, 150, 0);
+		manager.train_all_instances(data, 10, 0);
 
 		manager.evaluate_instances(data);
 
 		manager.calculate_best_instance();
 
-		if (i % 50 == 0) {
+		if (i % 100 == 0) {
+
 			manager.reshuffel_instances();
 			manager.best_instance->print_error("\n");
-			manager.evaluate_instances(data);
-			manager.calculate_best_instance();
 
 			i = 0;
+		}
+
+		for (int index = 0; index < manager.ai_list.size(); index++) {
+			if (std::isnan(manager.ai_list[index].error) || std::isnan(-manager.ai_list[index].error)) {
+				manager.ai_list[index] = SimpleAI::AI_Instance(SimpleAI::ai_learn_factor); 
+			}
 		}
 
 	}

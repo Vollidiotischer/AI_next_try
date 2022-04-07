@@ -4,13 +4,13 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "SimpleAI.h"
+#include "SimpleAI/SimpleAI.h"
 
 #include "Variables.h"
 
 namespace Events {
 
-	void handle_events(sf::RenderWindow& rw, std::vector<Point>& points, SimpleAI::AI_Manager& manager) {
+	void handle_events(sf::RenderWindow& rw, std::vector<Point>& points, SimpleAI::AI_Manager& manager, bool& points_shown) {
 
 		sf::Event events; 
 		while (rw.pollEvent(events)) {
@@ -50,6 +50,13 @@ namespace Events {
 
 					manager.best_instance->print_instance();
 
+				}
+
+				if (events.key.code == sf::Keyboard::S) {
+					points_shown = !points_shown; 
+				}
+				if (events.key.code == sf::Keyboard::C) {
+					points.clear(); 
 				}
 			}
 

@@ -88,12 +88,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\personal\CodingAddOns\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\CodingAddOns\cpp\SFML-2.5.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\personal\CodingAddOns\SFML\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\CodingAddOns\cpp\SFML-2.5.1\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -105,14 +105,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\personal\CodingAddOns\SFML\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\CodingAddOns\cpp\SFML-2.5.1\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\personal\CodingAddOns\SFML\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\CodingAddOns\cpp\SFML-2.5.1\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -153,15 +153,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIModule.h" />
-    <ClInclude Include="AI_Instance.h" />
-    <ClInclude Include="AI_Manager.h" />
-    <ClInclude Include="AI_Utility.h" />
-    <ClInclude Include="AI_Variables.h" />
     <ClInclude Include="Drawing.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="MainLoop.h" />
-    <ClInclude Include="Resource_Manager.h" />
-    <ClInclude Include="SimpleAI.h" />
+    <ClInclude Include="SimpleAI\AI_Instance.h" />
+    <ClInclude Include="SimpleAI\AI_Manager.h" />
+    <ClInclude Include="SimpleAI\AI_Utility.h" />
+    <ClInclude Include="SimpleAI\AI_Variables.h" />
+    <ClInclude Include="SimpleAI\Resource_Manager.h" />
+    <ClInclude Include="SimpleAI\SimpleAI.h" />
     <ClInclude Include="Variables.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

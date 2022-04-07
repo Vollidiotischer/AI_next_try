@@ -1,8 +1,6 @@
 #pragma once
 
 
-constexpr int num_instances = 5; 
-
 constexpr float window_width = 500; 
 constexpr float window_height = 500; 
 

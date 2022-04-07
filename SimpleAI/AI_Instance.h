@@ -61,6 +61,8 @@ namespace SimpleAI {
 
 			// initialize biases
 			init_biases();
+
+			std::cout << "Created new Instance" << std::endl; 
 		}
 
 		
@@ -81,7 +83,14 @@ namespace SimpleAI {
 				zero_out(neurons[i + 1]);
 				matrix_vector_multiply(neurons[i], weights[i], neurons[i + 1]);
 				vect_vect_add(neurons[i + 1], biases[i]);
-				apply_activation_function(neurons[i + 1]);
+				
+				if (i == num_layers - 2) {
+					apply_softmax_function(neurons[i + 1]); 
+				}
+				else {
+
+					apply_activation_function(neurons[i + 1]);
+				}
 			}
 
 			// Copy elements from last neuron layer to result vector (may be optimised out)
@@ -124,24 +133,27 @@ namespace SimpleAI {
 
 			}
 
-			// apply delta_weight changes
-			for (auto& w1 : weights) {
-				for (auto& w2 : w1) {
-					for (auto& w3 : w2) {
-						w3.current_weight += w3.delta_change;
+			if (data_list.size() > 0) {
+
+				// apply delta_weight changes
+				for (auto& w1 : weights) {
+					for (auto& w2 : w1) {
+						for (auto& w3 : w2) {
+							w3.current_weight += learn_factor * w3.delta_change / (float)data_list.size();
+						}
 					}
 				}
-			}
 
-			// apply delta_bias changes
-			for (auto& b1 : biases) {
-				for (auto& b2 : b1) {
-					b2.current_bias += b2.delta_change;
+				// apply delta_bias changes
+				for (auto& b1 : biases) {
+					for (auto& b2 : b1) {
+						b2.current_bias += learn_factor * b2.delta_change / (float)data_list.size();
+					}
 				}
-			}
 
-			// average out the error
-			this->error /= (DATA_TYPE)data_list.size();
+				// average out the error
+				this->error /= (DATA_TYPE)data_list.size();
+			}
 
 		}
 
@@ -209,7 +221,7 @@ namespace SimpleAI {
 				// Initialize weights to random value
 				for (int i2 = 0; i2 < weights[i].size(); i2++) {
 					for (int i3 = 0; i3 < weights[i][i2].size(); i3++) {
-						weights[i][i2][i3].current_weight = rd.get_random_number() / sqrt((DATA_TYPE)neurons[i].size());
+						weights[i][i2][i3].current_weight = rd.get_random_number() / sqrt(weights[i][i2].size());
 					}
 				}
 
@@ -262,7 +274,6 @@ private:
 
 		}
 
-
 		void backprop_step(Data_Point& data) {
 			/*
 			
@@ -285,17 +296,17 @@ private:
 
 					for (int i2 = 0; i2 < neurons[i].size(); i2++) {
 
-						neurons[i][i2].delta_value = delta_function_output_layer(neurons[i][i2].z, data.result[i2], neurons[i][i2].a); 
+						neurons[i][i2].delta_value = data.result[i2] - neurons[i][i2].a;//delta_function_output_layer(neurons[i][i2].z, data.result[i2], neurons[i][i2].a); //
 
 						// weights
 						for (int i3 = 0; i3 < neurons[i-1].size(); i3++) {
 							
-							weights[i-1][i2][i3].delta_change += learn_factor * neurons[i][i2].delta_value * neurons[i - 1][i3].a;
+							weights[i-1][i2][i3].delta_change += neurons[i][i2].delta_value * neurons[i - 1][i3].a;
 							
 						}
 
 						// biases
-						biases[i-1][i2].delta_change += learn_factor * neurons[i][i2].delta_value;
+						biases[i-1][i2].delta_change += neurons[i][i2].delta_value;
 
 					}
 
@@ -317,11 +328,11 @@ private:
 
 						// weights
 						for (int i3 = 0; i3 < weights[i - 1][i2].size(); i3++) {
-							weights[i - 1][i2][i3].delta_change += learn_factor * neurons[i][i2].delta_value * neurons[i - 1][i3].a;
+							weights[i - 1][i2][i3].delta_change += neurons[i][i2].delta_value * neurons[i - 1][i3].a;
 						}
 
 						// biases
-						biases[i - 1][i2].delta_change += learn_factor * neurons[i][i2].delta_value;
+						biases[i - 1][i2].delta_change += neurons[i][i2].delta_value;
 					}
 
 				}
@@ -369,13 +380,67 @@ private:
 			return delta * sum;
 		}
 
+
+		static void apply_softmax_function(std::vector<Neuron>& inout) {
+
+			DATA_TYPE sum = 0;
+
+			
+			DATA_TYPE max = inout[0].z; 
+
+			for (int i = 0; i < inout.size(); i++) {
+				//if (inout[i].z > DBL_MAX - 100000000) {
+					//std::cout << "ERRRRRRRRRRRRR " << inout[i].z << std::endl; 
+				//}
+				if (inout[i].z > max) {
+					max = inout[i].z; 
+				}
+			}
+			
+
+			for (int i = 0; i < inout.size(); i++) {
+				inout[i].z -= max;
+				sum += std::exp(inout[i].z);
+			}
+
+
+			for (int i = 0; i < inout.size(); i++) {
+				inout[i].a = (std::exp(inout[i].z) / sum);
+			}
+
+
+		}
+
 		static DATA_TYPE activation_function(DATA_TYPE x) {
-			return ((0.5f * x) / (1.f + abs(x))) + 0.5f;
+
+			//return (std::exp(2 * x) - 1) / (std::exp(2 * x) + 1);
+
+			//if (x > 6) {
+			//	return 0.001f * x; 
+			//}
+
+			if (x <= 0) {
+				return 0.01f * x; 
+			} 
+
+			return x; 
+
+			//DATA_TYPE result = std::max(0.01f * x, 1 * x); 
+			//return std::min(result, (DATA_TYPE)6); 
+
+			//return ((0.5f * x) / (1.f + abs(x))) + 0.5f;
 			//return 1.f / (1.f + exp(-x)); 
 		}
 
 		static DATA_TYPE activation_function_derivative(DATA_TYPE x) {
-			return 1.f / (4.f * abs(x) + 2.f * x * x + 2.f);
+			//DATA_TYPE y = activation_function(x);
+			//return (1 - y * y);
+			//if (x > 6) {
+			//	return 0.001f;
+			//}
+			return (x <= 0 ? 0.01f : 1); 
+
+			//return 1.f / (4.f * abs(x) + 2.f * x * x + 2.f);
 			//return activation_function(x) * (1.f - activation_function(x)); 
 		}
 
@@ -428,10 +493,11 @@ private:
 
 		}
 
-
 		// Calculate the cost for a single result of a single data point
 		static DATA_TYPE cost_function(std::array<DATA_TYPE, ai_layout[num_layers - 1]>& calculated_result, std::array<DATA_TYPE, ai_layout[num_layers - 1]>& expected_result) {
-
+			/*
+			// Squared Sum
+			
 			DATA_TYPE squared_sum = 0.f;
 
 			for (int i = 0; i < ai_layout[num_layers - 1]; i++) {
@@ -439,6 +505,20 @@ private:
 			}
 
 			return squared_sum;
+			*/
+
+			// Cross Entropy
+			
+			DATA_TYPE sum = 0.f;
+
+			for (int i = 0; i < calculated_result.size(); i++) {
+
+				sum -= expected_result[i] * log(calculated_result[i] + 0.001);
+			}
+
+			
+			return sum;
+			
 
 		}
 	};

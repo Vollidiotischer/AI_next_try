@@ -3,6 +3,6 @@
 
 namespace Events {
 
-	void handle_events(sf::RenderWindow&, std::vector<Point>&, SimpleAI::AI_Manager&); 
+	void handle_events(sf::RenderWindow&, std::vector<Point>&, SimpleAI::AI_Manager&, bool&); 
 
 }
