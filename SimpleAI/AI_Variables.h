@@ -17,8 +17,8 @@ ai_layout:
 
 namespace SimpleAI {
 
-	constexpr int num_layers = 7;
-	constexpr std::array<int, num_layers> ai_layout = { 2, 8, 8, 8, 6, 6, 2 };
+	constexpr int num_layers = 6;
+	constexpr std::array<int, num_layers> ai_layout = { 2, 8, 8, 8, 6, 2 };
 
 	constexpr DATA_TYPE ai_learn_factor = 0.01f;
 

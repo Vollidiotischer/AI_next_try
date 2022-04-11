@@ -99,6 +99,7 @@ int main() {
 	apply_softmax_function2(a2);
 	SimpleAI::println_vector(a2, 0);
 	*/
+
 	SimpleAI::AI_Manager manager(10); 
 
 	std::vector<Point> points;
