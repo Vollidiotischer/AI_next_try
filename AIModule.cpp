@@ -36,12 +36,12 @@ namespace AIModule {
 
 		populate_data(data, points);
 
-		manager.train_all_instances(data, 10, 0);
+		manager.train_all_instances(data, 0, data.size());
 
 		manager.evaluate_instances(data);
 
 		manager.calculate_best_instance();
-
+		
 		if (i % 100 == 0) {
 
 			manager.reshuffel_instances();

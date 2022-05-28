@@ -29,7 +29,7 @@ namespace Drawing {
 
 					std::array<DATA_TYPE, 2> result;
 					std::array<DATA_TYPE, 2> data = { (DATA_TYPE)i / (window_width/point_size), (DATA_TYPE)i2 / (window_height/point_size) };
-					ai->evaluate_input(data, result);
+					SimpleAI::AI_Instance::evaluate_input(*ai, data, result);
 					
 					rect.setFillColor(sf::Color(result[0] * 255, 0, result[1] * 255));
 
