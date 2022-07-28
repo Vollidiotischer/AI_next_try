@@ -111,3 +111,11 @@ int main() {
 	return 0; 
 }
 
+/*
+
+Instance erschaffen
+	-> Activation methode für jedes Layer festlegen 
+	-> Error funktion festlegen (funktion als lambda reingeben) 
+	-> Lernmethode festlegen 
+
+*/
