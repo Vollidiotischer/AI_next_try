@@ -19,6 +19,9 @@
     <Filter Include="Quelldateien\AI_Lib">
       <UniqueIdentifier>{3c69693d-dc56-46a9-ac1c-c9405b597159}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\AI_Lib\Gen2">
+      <UniqueIdentifier>{9c903253-7699-4674-b117-762750617921}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -35,6 +38,12 @@
     </ClCompile>
     <ClCompile Include="AIModule.cpp">
       <Filter>Quelldateien\Graphic_stuff</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleAI\AI_Instance.cpp">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="NeuralNetwork.cpp">
+      <Filter>Quelldateien\AI_Lib\Gen2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +79,15 @@
     </ClInclude>
     <ClInclude Include="SimpleAI\SimpleAI.h">
       <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_Trainer.hpp">
+      <Filter>Quelldateien\AI_Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorFunctions.hpp">
+      <Filter>Quelldateien\AI_Lib\Gen2</Filter>
+    </ClInclude>
+    <ClInclude Include="NeuralNetwork.hpp">
+      <Filter>Quelldateien\AI_Lib\Gen2</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

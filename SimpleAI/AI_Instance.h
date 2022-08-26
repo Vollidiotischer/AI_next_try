@@ -6,6 +6,7 @@
 #include <vector>
 #include <random>
 #include <time.h>
+#include <functional>
 
 #include "AI_Variables.h"
 #include "AI_Functionality.h"
@@ -16,11 +17,11 @@ namespace SimpleAI {
 	namespace {
 		struct Random_Device {
 			std::default_random_engine engine;
-			std::normal_distribution<DATA_TYPE> dist;
+			std::normal_distribution<double> dist;
 
 			Random_Device() : dist(erwartungswert, standardabweichung), engine(time(NULL)) {}
 
-			DATA_TYPE get_random_number() {
+			double get_random_number() {
 
 				return dist(engine);
 			}
@@ -33,167 +34,38 @@ namespace SimpleAI {
 
 		static Random_Device rd;
 
-		DATA_TYPE learn_factor = ai_learn_factor; 
+		double learn_factor = ai_learn_factor; 
 
 		/*
-
-		Weights is a List of num_layers - 1 matrices
-
+			Weights is a List of num_layers - 1 matrices
 		*/
 		std::array<std::vector<std::vector<Weight>>, num_layers - 1> weights;
 		std::array<std::vector<Bias>, num_layers - 1> biases;
 		std::array<std::vector<Neuron>, num_layers> neurons;
 
-		DATA_TYPE error = 0.f; 
+		double error = 0.f; 
 
+		std::function<double()> error_function; 
 
-		AI_Instance(DATA_TYPE learn_factor) {
+		AI_Instance(double);
 
-			this->learn_factor = learn_factor; 
+		void print_instance();
 
-			// initialize neurons
-			for (int i = 0; i < num_layers; i++) {
-				neurons[i].resize(ai_layout[i]);
-			}
+		void print_error(std::string);
 
+		void init_weights();
 
-			// initialize weights
-			init_weights();
+		void init_biases();
 
-			// initialize biases
-			init_biases();
-		}
+		static void clear_weight_delta_value(std::array<std::vector<std::vector<Weight>>, num_layers - 1>& weights);
 
+		static void clear_biases_delta_value(std::array<std::vector<Bias>, num_layers - 1>& biases);
 
-		void print_instance() {
-			std::cout << "Status of the ai: " << std::endl;
-			for (int i = 0; i < neurons.size(); i++) {
+		static void evaluate_input_list(AI_Instance& ai, std::vector<Data_Point>& data);
 
-				std::cout << "a: [";
+		static void feed_forward_step(AI_Instance& ai, Data_Point& dp);
 
-				for (int i2 = 0; i2 < neurons[i].size(); i2++) {
-					std::cout << neurons[i][i2].a << (i2 < neurons[i].size() - 1 ? ", " : "]");
-				}
-				std::cout << std::endl;
-
-				std::cout << "z: [";
-
-				for (int i2 = 0; i2 < neurons[i].size(); i2++) {
-					std::cout << neurons[i][i2].z << (i2 < neurons[i].size() - 1 ? ", " : "]");
-				}
-
-				std::cout << std::endl; 
-
-				std::cout << "d: [";
-
-				for (int i2 = 0; i2 < neurons[i].size(); i2++) {
-					std::cout << neurons[i][i2].delta_value << (i2 < neurons[i].size() - 1 ? ", " : "]");
-				}
-				std::cout << std::endl << std::endl;
-			}
-
-			std::cout << "Error of the ai: " << error << std::endl << std::endl;
-
-			std::cout << "Weights of the ai: " << std::endl;
-
-			std::cout << "Weights_0: [" << std::endl;
-			for (auto& s1 : weights) {
-				std::cout << "\tWeights_1: [" << std::endl;
-				for (auto& s2 : s1) {
-					SimpleAI::println_vector_weight(s2, 2);
-				}
-				std::cout << "\t]" << std::endl;
-			}
-			std::cout << "]" << std::endl << std::endl;
-
-			std::cout << "Biases of the ai: " << std::endl;
-
-			std::cout << "Biases_0: [" << std::endl;
-
-			for (auto& s1 : biases) {
-				SimpleAI::println_vector_bias(s1, 1);
-			}
-
-			std::cout << "]" << std::endl;
-		}
-
-		void print_error(std::string app = "") {
-			std::cout << "Error: " << error * 100.f << "%" << app;
-		}
-
-		void init_weights() {
-			for (int i = 0; i < weights.size(); i++) {
-				// number of rows in the matrix (one row for each neuron in the following layer) 
-				weights[i] = std::vector<std::vector<Weight>>(ai_layout[i + 1], std::vector<Weight>(ai_layout[i], 0));
-
-				// Initialize weights to random value
-				for (int i2 = 0; i2 < weights[i].size(); i2++) {
-					for (int i3 = 0; i3 < weights[i][i2].size(); i3++) {
-						weights[i][i2][i3].current_weight = rd.get_random_number() / sqrt((DATA_TYPE)neurons[i].size());
-					}
-				}
-
-			}
-		}
-
-		void init_biases() {
-			for (int i = 0; i < biases.size(); i++) {
-				biases[i] = std::vector<Bias>(ai_layout[i + 1], 0);
-
-				// Initialize to random Value
-				for (int i2 = 0; i2 < biases[i].size(); i2++) {
-					biases[i][i2].current_bias = rd.get_random_number();
-				}
-			}
-		}
-
-		static void clear_weight_delta_value(std::array<std::vector<std::vector<Weight>>, num_layers - 1>& weights) {
-
-			for (auto& w1 : weights) {
-				for (auto& w2 : w1) {
-					for (auto& w3 : w2) {
-						w3.delta_change = 0.f;
-					}
-				}
-			}
-
-		}
-
-		static void clear_biases_delta_value(std::array<std::vector<Bias>, num_layers - 1>& biases) {
-
-			for (auto& b1 : biases) {
-				for (auto& b2 : b1) {
-					b2.delta_change = 0.f;
-				}
-			}
-
-		}
-
-		static void evaluate_input_list(AI_Instance& ai, std::vector<Data_Point>& data) {
-
-			ai.error = 0.f;
-
-			for (int i = 0; i < data.size(); i++) {
-				// Feed data through AI
-				feed_forward_step(ai, data[i]);
-
-			}
-
-			// average out the error
-			ai.error /= (DATA_TYPE)data.size();
-
-		}
-
-		static void feed_forward_step(AI_Instance& ai, Data_Point& dp) {
-
-			std::array<DATA_TYPE, ai_layout[num_layers - 1]> result;
-			evaluate_input(ai, dp.data, result); // static 
-
-			ai.error += cost_function(result, dp.result); // static
-
-		}
-
-		static void evaluate_input(AI_Instance& ai, const std::array<DATA_TYPE, ai_layout[0]>& data /* IN */, std::array<DATA_TYPE, ai_layout[num_layers - 1]>& result /* OUT */) {
+		static void evaluate_input(AI_Instance& ai, const std::array<double, ai_layout[0]>& data /* IN */, std::array<double, ai_layout[num_layers - 1]>& result /* OUT */) {
 
 			if (data.size() != ai.neurons[0].size()) {
 				fprintf(stderr, "Data size (%d) does not match Input Layer size (%d) [Line %d in function '%s']", data.size(), ai.neurons[0].size(), __LINE__, __func__);
@@ -262,7 +134,7 @@ namespace SimpleAI {
 			}
 
 			// average out the error
-			ai.error /= (DATA_TYPE)data_list.size();
+			ai.error /= (double)data_list.size();
 		}
 
 		static void backprop_step(AI_Instance& ai, Data_Point& data) {
@@ -310,13 +182,13 @@ namespace SimpleAI {
 				else { // hidden layers: (2)
 
 					for (int i2 = 0; i2 < ai.neurons[i].size(); i2++) {
-						DATA_TYPE z_hid = ai.neurons[i][i2].z;
+						double z_hid = ai.neurons[i][i2].z;
 
 						// gather weight, delta neuron pairs for neuron delta value (2.1) 
-						std::vector<std::array<DATA_TYPE, 2>> delta_pairs;
+						std::vector<std::array<double, 2>> delta_pairs;
 
 						for (int i3 = 0; i3 < ai.weights[i].size(); i3++) {
-							std::array<DATA_TYPE, 2> delta_pair = { ai.weights[i][i3][i2].current_weight, ai.neurons[i + 1][i3].delta_value };
+							std::array<double, 2> delta_pair = { ai.weights[i][i3][i2].current_weight, ai.neurons[i + 1][i3].delta_value };
 							delta_pairs.push_back(delta_pair);
 
 						}
@@ -340,7 +212,7 @@ namespace SimpleAI {
 
 private:
 
-		static DATA_TYPE delta_function_output_layer(DATA_TYPE z_hid, DATA_TYPE a_soll, DATA_TYPE a_ist) {
+		static double delta_function_output_layer(double z_hid, double a_soll, double a_ist) {
 
 			// CURRENTLY NOT IN USE
 
@@ -353,12 +225,12 @@ private:
 				Formula: f'(inp) * (a_soll - a_ist)
 			*/
 
-			DATA_TYPE der_of_cost_res = (a_soll - a_ist); 
+			double der_of_cost_res = (a_soll - a_ist); 
 
 			return activation_function_derivative(z_hid) * der_of_cost_res;
 		}
 
-		static DATA_TYPE delta_function_hidden_layer(DATA_TYPE z_hid, std::vector<std::array<DATA_TYPE, 2>>& delta_pairs) {
+		static double delta_function_hidden_layer(double z_hid, std::vector<std::array<double, 2>>& delta_pairs) {
 
 			/*
 				IN:
@@ -370,9 +242,9 @@ private:
 				Formula: f'(z_hid) * Sum(delta_value * weight)
 			*/
 
-			DATA_TYPE delta = activation_function_derivative(z_hid);
+			double delta = activation_function_derivative(z_hid);
 
-			DATA_TYPE sum = 0;
+			double sum = 0;
 
 			for (int i = 0; i < delta_pairs.size(); i++) {
 				sum += delta_pairs[i][0] * delta_pairs[i][1];
@@ -381,14 +253,14 @@ private:
 			return delta * sum;
 		}
 
-		static DATA_TYPE activation_function(DATA_TYPE x) {
+		static double activation_function(double x) {
 
 			return std::max(0.01f * x, x); // Leaky ReLU
 
 			//return 1.f / (1.f + exp(-x)); // Sigmoid
 		}
 
-		static DATA_TYPE activation_function_derivative(DATA_TYPE x) {
+		static double activation_function_derivative(double x) {
 			
 			return (x <= 0.f ? 0.01f : 1.f); // Leaky ReLU
 			
@@ -441,10 +313,10 @@ private:
 
 		static void apply_softmax_function(std::vector<Neuron>& inout) {
 
-			DATA_TYPE sum = 0;
+			double sum = 0;
 
 
-			DATA_TYPE max = inout[0].z;
+			double max = inout[0].z;
 
 			for (int i = 0; i < inout.size(); i++) {
 				if (inout[i].z > max) {
@@ -474,10 +346,10 @@ private:
 		}
 
 		// Calculate the cost for a single result of a single data point
-		static DATA_TYPE cost_function(std::array<DATA_TYPE, ai_layout[num_layers - 1]>& calculated_result, std::array<DATA_TYPE, ai_layout[num_layers - 1]>& expected_result) {
+		static double cost_function(std::array<double, ai_layout[num_layers - 1]>& calculated_result, std::array<double, ai_layout[num_layers - 1]>& expected_result) {
 			// Squared Sum
 			/*
-			DATA_TYPE squared_sum = 0.f;
+			double squared_sum = 0.f;
 
 			for (int i = 0; i < ai_layout[num_layers - 1]; i++) {
 				squared_sum += (calculated_result[i] - expected_result[i]) * (calculated_result[i] - expected_result[i]);
@@ -487,7 +359,7 @@ private:
 			*/
 
 			// Cross Entropy
-			DATA_TYPE sum = 0.f;
+			double sum = 0.f;
 
 			for (int i = 0; i < calculated_result.size(); i++) {
 				sum -= expected_result[i] * log(calculated_result[i] + 0.001);

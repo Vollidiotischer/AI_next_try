@@ -69,7 +69,7 @@ namespace SimpleAI {
 		int calculate_best_instance() {
 
 			int pos = 0; 
-			DATA_TYPE min_score = ai_list[0].error; 
+			double min_score = ai_list[0].error; 
 
 			for (int i = 1; i < ai_list.size(); i++) {
 				if (ai_list[i].error < min_score) {

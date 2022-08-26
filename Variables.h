@@ -4,7 +4,7 @@
 constexpr float window_width = 500; 
 constexpr float window_height = 500; 
 
-constexpr float point_size = 5.f; 
+constexpr float point_size = 5; 
 constexpr float circle_radius = 10.f; 
 
 

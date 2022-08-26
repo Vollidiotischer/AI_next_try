@@ -13,8 +13,8 @@ namespace AIModule {
 
 			for (auto& p : points) {
 				SimpleAI::Data_Point dp;
-				dp.data[0] = (DATA_TYPE)p.x / window_width;
-				dp.data[1] = (DATA_TYPE)p.y / window_height;
+				dp.data[0] = (double)p.x / window_width;
+				dp.data[1] = (double)p.y / window_height;
 
 				dp.result[0] = p.color == 'r';
 				dp.result[1] = p.color == 'b';

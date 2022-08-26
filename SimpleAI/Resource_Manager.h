@@ -70,7 +70,7 @@ namespace SimpleAI {
 				return; 
 			}
 
-			std::array<DATA_TYPE, 2> ai_size;
+			std::array<double, 2> ai_size;
 			parse_data<2>(parsed[0], ai_size); 
 
 			if (ai_size[0] != ai_layout[0] || ai_size[1] != ai_layout[num_layers - 1]) {
@@ -118,7 +118,7 @@ namespace SimpleAI {
 		}
 
 		template <int arr_size>
-		static void parse_data(const std::string& inp /* IN */, std::array<DATA_TYPE, arr_size>& result /* OUT */) {
+		static void parse_data(const std::string& inp /* IN */, std::array<double, arr_size>& result /* OUT */) {
 			
 			int last_pos = 0; 
 

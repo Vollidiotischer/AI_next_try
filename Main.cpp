@@ -35,10 +35,10 @@ Berechnen:
 
 static void apply_softmax_function(std::vector<float>& inout) {
 
-	DATA_TYPE sum = 0;
+	double sum = 0;
 
 
-	DATA_TYPE max = inout[0];
+	double max = inout[0];
 
 	for (int i = 0; i < inout.size(); i++) {
 		if (inout[i] > max) {
@@ -118,4 +118,6 @@ Instance erschaffen
 	-> Error funktion festlegen (funktion als lambda reingeben) 
 	-> Lernmethode festlegen 
 
+Genetic Algorithm: 
+	
 */
