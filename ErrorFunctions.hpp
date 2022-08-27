@@ -1,14 +1,12 @@
 #pragma once
 
 
-namespace SimpleAI {
+namespace SimpleAI::ErrorFunctions {
 
-	namespace ErrorFunctions {
 
-		double mean_squared_error() {
-
-		}
+	double mean_squared_error() {
 
 	}
+
 
 }

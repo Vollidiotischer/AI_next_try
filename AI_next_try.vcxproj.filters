@@ -89,5 +89,11 @@
     <ClInclude Include="NeuralNetwork.hpp">
       <Filter>Quelldateien\AI_Lib\Gen2</Filter>
     </ClInclude>
+    <ClInclude Include="Config.hpp">
+      <Filter>Quelldateien\AI_Lib\Gen2</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.hpp">
+      <Filter>Quelldateien\AI_Lib\Gen2</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
