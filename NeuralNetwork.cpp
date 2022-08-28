@@ -6,10 +6,16 @@
 
 namespace SimpleAI {
 
-	NeuralNetwork::NeuralNetwork(std::vector<std::pair<Layers, int>> layers) {
+	NeuralNetwork::NeuralNetwork(std::vector<std::tuple<Layers, int, std::function<double(double)>>> layers) {
 
-		for (auto& p : layers) {
-			this->neurons.push_back(Eigen::VectorXd(p.second)); 
+		for (auto& t : layers) {
+			this->neurons.push_back(
+				NeuronLayer(
+					Eigen::VectorXd(std::get<1>(t)), 
+					std::get<2>(t)
+				)
+			); 
+			
 		}
 
 		if (layers.size() < 2) {
@@ -31,12 +37,11 @@ namespace SimpleAI {
 			auto& n1 = this->neurons[i]; 
 			auto& n2 = this->neurons[i + 1];
 
-			Eigen::MatrixXd weight_matrix(n2.size(), n1.size());
+			Eigen::MatrixXd weight_matrix(n2.vect.size(), n1.vect.size());
 
 			this->weights.push_back(weight_matrix); 
 
 		}
-
 
 	}
 
@@ -48,10 +53,18 @@ namespace SimpleAI {
 
 		for (int i = 1; i < this->neurons.size(); i++) {
 
-			Eigen::VectorXd bias_vect(this->neurons[i].size());
+			Eigen::VectorXd bias_vect(this->neurons[i].vect.size());
 			this->biases.push_back(bias_vect); 
 
 		}
+
+	}
+
+	void NeuralNetwork::randomize_weights() {
+
+	}
+	
+	void NeuralNetwork::randomize_biases() {
 
 	}
 

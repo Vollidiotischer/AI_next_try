@@ -89,7 +89,6 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\CodingAddOns\cpp\SFML-2.5.1\include;D:\CodingAddOns\cpp\eigen-3.4.0</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,7 +106,6 @@
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\CodingAddOns\cpp\SFML-2.5.1\include;D:\CodingAddOns\cpp\eigen-3.4.0</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -160,10 +158,10 @@
   <ItemGroup>
     <ClInclude Include="AIModule.h" />
     <ClInclude Include="AI_Trainer.hpp" />
-    <ClInclude Include="Config.hpp" />
     <ClInclude Include="Drawing.h" />
     <ClInclude Include="ErrorFunctions.hpp" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="GeneticAlgorithmTrainer.hpp" />
     <ClInclude Include="MainLoop.h" />
     <ClInclude Include="NeuralNetwork.hpp" />
     <ClInclude Include="SimpleAI\AI_Instance.h" />

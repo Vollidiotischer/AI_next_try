@@ -15,8 +15,10 @@ int main() {
 
 	SimpleAI::NeuralNetwork nn({
 		{SimpleAI::Layers::DENSE, 3},
-		{SimpleAI::Layers::DENSE, 3},
+		//{SimpleAI::Layers::DENSE, 3},
 	});
+
+	nn.set_error_fun(); 
 
 	return 0; 
 }
